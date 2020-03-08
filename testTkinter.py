@@ -29,6 +29,8 @@ def analysis_result():
     pass
 def filter_packet():
     pass
+def clear_data():
+    pass
 
 def getNIC():
     return ['eth0','eth1','eth2']
@@ -46,6 +48,8 @@ class StatusBar(Frame):
         self.label.config(text="")
         self.label.update_idletasks()
 
+#=================GUI绘制=================#
+
 tk = tkinter.Tk()
 tk.title("Sniffer")
 # tk.resizable(0, 0)
@@ -60,13 +64,17 @@ select_nic_combo.current(1)
 start_button = Button(toolbar, width=8, text="开始", command=start_capture)
 pause_button = Button(toolbar, width=8, text="暂停", command=pause_capture)
 stop_button = Button(toolbar, width=8, text="停止", command=stop_capture)
+clear_button = Button(toolbar, width=8, text="清空数据", command=clear_data)
 save_button = Button(toolbar, width=8, text="保存数据", command=save_captured_data_to_file)
 quit_button = Button(toolbar, width=8, text="退出", command=quit_program)
-analysis_button = Button(toolbar,width=8,text="统计结果",command=analysis_result)
+analysis_button = Button(toolbar,width=8,text="流量分析",command=analysis_result)
+
 start_button['state'] = 'normal'
 pause_button['state'] = 'disabled'
 stop_button['state'] = 'disabled'
+clear_button['state']='disabled'
 save_button['state'] = 'disabled'
+analysis_button['state']='disabled'
 quit_button['state'] = 'normal'
 
 select_nic_label.pack(side=LEFT,padx=10,pady=10)
@@ -170,6 +178,7 @@ main_panedwindow.pack(fill=BOTH, expand=1)
 status_bar = StatusBar(tk)
 status_bar.pack(side=BOTTOM, fill=X)
 #just_a_test()  # 展示一个数据包，不是抓来的
+tk.iconbitmap('networking_32px_1208137_easyicon.net.ico')
 tk.mainloop()
 
 
