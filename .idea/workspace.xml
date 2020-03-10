@@ -2,50 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7df5e0d1-18e4-4a39-a73d-05ea434ba249" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.pcap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/tcl8.6/init.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/Activate.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_asyncio.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_bz2.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_ctypes.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_ctypes_test.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_decimal.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_distutils_findvs.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_elementtree.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_hashlib.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_lzma.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_msi.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_multiprocessing.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_overlapped.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_socket.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_sqlite3.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_ssl.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_testbuffer.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_testcapi.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_testconsole.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_testimportmultiple.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_testmultiphase.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/_tkinter.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/activate" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/activate.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/deactivate.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/pyexpat.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/python.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/python3.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/python36.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/pythonw.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/select.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/sqlite3.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/tcl86t.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/tk86t.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/unicodedata.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/vcruntime140.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Scripts/winsound.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/pyvenv.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sniffer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sniffer.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/capture_packet.py" beforeDir="false" afterPath="$PROJECT_DIR$/capture_packet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pcap" beforeDir="false" afterPath="$PROJECT_DIR$/.pcap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testTkinter.py" beforeDir="false" afterPath="$PROJECT_DIR$/testTkinter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,7 +103,17 @@
       <updated>1583412275716</updated>
       <workItem from="1583809485822" duration="147000" />
       <workItem from="1583809650945" duration="20247000" />
+      <workItem from="1583838044954" duration="17312000" />
+      <workItem from="1583856645997" duration="3610000" />
     </task>
+    <task id="LOCAL-00001" summary="增加了页面交互的基本逻辑">
+      <created>1583838116803</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583838116803</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,65 +129,84 @@
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="增加了页面交互的基本逻辑" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加了页面交互的基本逻辑" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1583838106635">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1583838113733">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1583838106635" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1583838113733" />
     <state x="279" y="104" key="FileChooserDialogImpl" timestamp="1583810171372">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="279" y="104" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1583810171372" />
-    <state width="1239" height="2" key="GridCell.Tab.0.bottom" timestamp="1583837437642">
+    <state width="1237" height="121" key="GridCell.Tab.0.bottom" timestamp="1583860023611">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="2" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1583837437642" />
-    <state width="1239" height="2" key="GridCell.Tab.0.center" timestamp="1583837437642">
+    <state width="1237" height="121" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1583860023611" />
+    <state width="1237" height="121" key="GridCell.Tab.0.center" timestamp="1583860023611">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="2" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1583837437642" />
-    <state width="1239" height="2" key="GridCell.Tab.0.left" timestamp="1583837437642">
+    <state width="1237" height="121" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1583860023611" />
+    <state width="1237" height="121" key="GridCell.Tab.0.left" timestamp="1583860023609">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="2" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1583837437642" />
-    <state width="1239" height="2" key="GridCell.Tab.0.right" timestamp="1583837437642">
+    <state width="1237" height="121" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1583860023609" />
+    <state width="1237" height="121" key="GridCell.Tab.0.right" timestamp="1583860023611">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="2" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1583837437642" />
-    <state width="1239" height="187" key="GridCell.Tab.1.bottom" timestamp="1583831387003">
+    <state width="1237" height="121" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1583860023611" />
+    <state width="1116" height="57" key="GridCell.Tab.1.bottom" timestamp="1583859400460">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="187" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1583831387003" />
-    <state width="1239" height="187" key="GridCell.Tab.1.center" timestamp="1583831387002">
+    <state width="1116" height="57" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1583859400460" />
+    <state width="1116" height="57" key="GridCell.Tab.1.center" timestamp="1583859400459">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="187" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1583831387002" />
-    <state width="1239" height="187" key="GridCell.Tab.1.left" timestamp="1583831387002">
+    <state width="1116" height="57" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1583859400459" />
+    <state width="1116" height="57" key="GridCell.Tab.1.left" timestamp="1583859400459">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="187" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1583831387002" />
-    <state width="1239" height="187" key="GridCell.Tab.1.right" timestamp="1583831387002">
+    <state width="1116" height="57" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1583859400459" />
+    <state width="1116" height="57" key="GridCell.Tab.1.right" timestamp="1583859400459">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1239" height="187" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1583831387002" />
+    <state width="1116" height="57" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1583859400459" />
     <state x="0" y="5" key="SettingsEditor" timestamp="1583823459140">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="0" y="5" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1583823459140" />
-    <state x="329" y="184" key="com.intellij.ide.util.TipDialog" timestamp="1583838046231">
+    <state x="329" y="184" key="com.intellij.ide.util.TipDialog" timestamp="1583856647519">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="329" y="184" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1583838046231" />
-    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1583834034953">
+    <state x="329" y="184" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1583856647519" />
+    <state x="437" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583860265430">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1583834034953" />
+    <state x="437" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.720@0.0.1280.720" timestamp="1583860265430" />
+    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1583859617129">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1583859617129" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/sniffer$capture_packet.coverage" NAME="capture_packet Coverage Results" MODIFIED="1583823998644" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/sniffer$testTkinter.coverage" NAME="testTkinter Coverage Results" MODIFIED="1583837437636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sniffer$capture_packet.coverage" NAME="capture_packet Coverage Results" MODIFIED="1583859955476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sniffer$testTkinter.coverage" NAME="testTkinter Coverage Results" MODIFIED="1583860023603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

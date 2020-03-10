@@ -16,14 +16,13 @@ from tkinter.ttk import Treeview
 from scapy.all import *
 from scapy.layers.inet import *
 from scapy.layers.l2 import *
-# 协议选项列表
-protocal_choose_list=['ether','ip','ip6','arp','decnet','tcp','udp','tcp or udp','icmp']
+protocal_choose_list = ['ALL', 'ether', 'ip', 'ip6', 'arp', 'decnet', 'tcp', 'udp', 'tcp or udp', 'icmp']
 
 #用于终止抓包线程的事件
-stop_event = threading.Event()
+stop_sending = threading.Event()
 
 #数据包的Id
-packet_id=1
+packet_num=1
 #数据包列表
 packet_list=[]
 #一些标志位
@@ -37,6 +36,7 @@ NIC_list=[]
 filter_rule=""
 
 #=============一些跟工具相关的类==============#
+
 def getNIC():
     '''
     获取本机的网卡信息
@@ -60,7 +60,7 @@ def getNIC():
 
         lines=file.readlines()
         for line in lines:
-            line = line[7:55]
+            line = line[iface_index:ip_index]
             if line.startswith("["):
                 continue
             line=line.strip()
@@ -69,21 +69,53 @@ def getNIC():
     os.remove("tmp.txt")
     return NIC_list
 
-def timestamp2time(timestamp):
-    '''
-    时间格式的转换
-    :param timestamp:
-    :return:
-    '''
-    tmp_time= time.localtime(timestamp)
-    mytime= time.strftime("%Y-%m-%d %H:%M:%S",tmp_time)
-    return mytime
-
-def select_nic(event):
-    print("select nic:",select_nic_combo.get())
-
+# 处理抓到的数据包
 def process_packet(packet):
-    pass
+    global packet_list
+    # 将抓到的包存在列表中
+    packet_list.append(packet)
+    # 抓包的时间
+    time_array = time.localtime(packet.time)
+    packet_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+    src = packet[Ether].src
+    dst = packet[Ether].dst
+    type = packet[Ether].type
+    types = {0x0800: 'IPv4', 0x0806: 'ARP', 0x86dd: 'IPv6', 0x88cc: 'LLDP', 0x891D: 'TTE'}
+    if type in types:
+        proto = types[type]
+    else:
+        proto = 'LOOP'  # 协议
+    # IP
+    if proto == 'IPv4':
+        # 建立协议查询字典
+        protos = {1: 'ICMP', 2: 'IGMP', 4: 'IP', 6: 'TCP', 8: 'EGP', 9: 'IGP', 17: 'UDP', 41: 'IPv6', 50: 'ESP',
+                  89: 'OSPF'}
+        src = packet[IP].src
+        dst = packet[IP].dst
+        proto = packet[IP].proto
+        if proto in protos:
+            proto = protos[proto]
+    # tcp
+    if TCP in packet:
+        protos_tcp = {80: 'Http', 443: 'Https', 23: 'Telnet', 21: 'Ftp', 20: 'ftp_data', 22: 'SSH', 25: 'SMTP'}
+        sport = packet[TCP].sport
+        dport = packet[TCP].dport
+        if sport in protos_tcp:
+            proto = protos_tcp[sport]
+        elif dport in protos_tcp:
+            proto = protos_tcp[dport]
+    elif UDP in packet:
+        if packet[UDP].sport == 53 or packet[UDP].dport == 53:
+            proto = 'DNS'
+    length = len(packet)  # 长度
+    info = packet.summary()  # 信息
+    global packet_num  # 数据包的编号
+    packet_list_tree.insert("", 'end', packet_num, text=packet_num,
+                            values=(packet_num, packet_time, src, dst, proto, length, info))
+    packet_list_tree.update_idletasks()  # 更新列表，不需要修改
+    packet_num = packet_num + 1
+    
+        
 
 def capture_packet():
     '''
@@ -92,15 +124,23 @@ def capture_packet():
     '''
     # step1 设置过滤条件（在抓包前进行过滤），每次抓包前都需要判断是否设置了过滤条件
     nic = select_nic_combo.get()  # 选取的网卡
-    global filter_rule
+
+    global filter_rule,stop_sending
+    filter_rule=fitler_entry.get()
 
     # step2 设置停止抓包的条件
-    stop_event.clear()
-    sniff(iface=nic, prn=(lambda x: process_packet(x)), filter=filter_rule,
-          stop_filter=(lambda x: stop_event.is_set()))
+    if (nic != "ALL"):
+        sniff(count=20,iface=nic, prn=(lambda x: process_packet(x)), filter=filter_rule,
+              stop_filter=(lambda x: stop_sending.is_set()))
+    else:
+        sniff(count=20,prn=(lambda x: process_packet(x)), filter=filter_rule,
+              stop_filter=(lambda x: stop_sending.is_set()))
 
+def select_nic(event):
+    print("select nic:",select_nic_combo.get())
 
 def start_capture():
+    global stop_sending
     # step 1 更改一些交互的按钮的状态
     select_nic_combo['state']='disabled'
     filter_button['state']='disabled'
@@ -110,32 +150,41 @@ def start_capture():
     global stop_flag,save_flag
     stop_flag=False
     save_flag=False
+    start_flag=True
+    # step 3 启动抓包线程
+    stop_sending.clear()
+    capture_thread = threading.Thread(target=capture_packet())
+    capture_thread.setDaemon(True)
+    capture_thread.start()
 
 
-def stop_capture():
-    # step 1 更改一些交互按钮的状态
-    select_nic_combo['state'] = 'readonly'
-    filter_button['state'] = 'normal'
-    stop_button['state'] = 'disabled'
-    start_button['state'] = 'normal'
-    clear_button['state']='normal'
-    save_button['state']='normal'
-    analysis_button['state']='normal'
+def stop_capture(event):
+    global stop_sending
+    # step 1 终止线程，停止抓包
+    stop_sending.set()
+    print("press stop button")
 
     # step 2 设置一些标志位
     global stop_flag, save_flag
     stop_flag=True
     save_flag=False
-    # step 3 终止线程，停止抓包
-    stop_event.set()
-    print("停止抓包，一共抓到",packet_id,"个数据包")
+    print("停止抓包，一共抓到",packet_num,"个数据包")
 
-def save_captured_data_to_file():
+    # step 2 更改一些交互按钮的状态
+    select_nic_combo['state'] = 'readonly'
+    filter_button['state'] = 'normal'
+    stop_button['state'] = 'disabled'
+    start_button['state'] = 'normal'
+    clear_button['state'] = 'normal'
+    save_button['state'] = 'normal'
+    analysis_button['state'] = 'normal'
+
+def save():
     '''
     将获取得到的文件进行保存
     :return:
     '''
-
+    global save_flag
     filename = tkinter.filedialog.asksaveasfilename(title='保存文件', filetypes=[('所有文件', '.*'),
                                                                              ('数据包', '.pcap')], initialfile='.pcap')
     if filename.find('.pcap') == -1:
@@ -146,15 +195,15 @@ def save_captured_data_to_file():
     if(len(filename)>5):
         print("已保存当前文件")
         # 设置标志位
-        global save_flag
         save_flag = True
 
 
-def quit_program():
+def quit():
     '''
     退出程序
     :return:
     '''
+    global stop_sending
     if (stop_flag is True) :
         if (save_flag is False):
             result= tkinter.messagebox.askyesnocancel("保存提醒", "是否保存抓到的数据包")
@@ -175,42 +224,48 @@ def quit_program():
             print("已经保存，直接退出")
             tk.destroy()
     else:
-        result = tkinter.messagebox.askyesnocancel("警告", "程序仍在运行，是否退出程序？")
-        # 程序仍在运行，直接退出程序
-        if(result is True):
-            # 终止抓包的线程
-            stop_event.set()
-            if (save_flag is False):
-                result = tkinter.messagebox.askyesnocancel("保存提醒", "是否保存抓到的数据包")
-                if (result is False):
-                    print("直接退出不保存")
-                    tk.destroy()
-                elif (result is True):
-                    print("先保存数据包，再退出")
-                    filename = tkinter.filedialog.asksaveasfilename(title='保存文件',
-                                                                    filetypes=[('所有文件', '.*'), ('数据包', '.pcap')],
-                                                                    initialfile='.pcap')
-                    if filename.find('.pcap') == -1:
-                        # 默认文件格式为 pcap
-                        filename = filename + '.pcap'
-                    wrpcap(filename, packet_list)
-                    tk.destroy()
+        if(start_flag==True):
+            result = tkinter.messagebox.askyesnocancel("警告", "程序仍在运行，是否退出程序？")
+            # 程序仍在运行，直接退出程序
+            if (result is True):
+                # 终止抓包的线程
+                stop_sending.set()
+                if (save_flag is False):
+                    result = tkinter.messagebox.askyesnocancel("保存提醒", "是否保存抓到的数据包")
+                    if (result is False):
+                        print("直接退出不保存")
+                        tk.destroy()
+                    elif (result is True):
+                        print("先保存数据包，再退出")
+                        filename = tkinter.filedialog.asksaveasfilename(title='保存文件',
+                                                                        filetypes=[('所有文件', '.*'), ('数据包', '.pcap')],
+                                                                        initialfile='.pcap')
+                        if filename.find('.pcap') == -1:
+                            # 默认文件格式为 pcap
+                            filename = filename + '.pcap'
+                        wrpcap(filename, packet_list)
+                        tk.destroy()
+                    else:
+                        print("取消退出")
                 else:
-                    print("取消退出")
+                    print("已经保存，直接退出")
+                    tk.destroy()
+            # 不退出程序
             else:
-                print("已经保存，直接退出")
-                tk.destroy()
-        # 不退出程序
+                print("取消退出")
         else:
-            print("取消退出")
+            print("直接退出程序！")
+            tk.destroy()
 
-def clear_data():
+
+
+def clear():
     '''
     清空列表中的数据
     :return:
     '''
-    # 判断是否需要进行保存？
-    global save_flag,packet_list,packet_id
+    # 判断是否需要进行保存
+    global save_flag,packet_list,packet_num
     if (save_flag is False):
         result = tkinter.messagebox.askyesnocancel("保存提醒", "是否保存抓到的数据包")
         if (result is False):
@@ -221,8 +276,8 @@ def clear_data():
             for item in items:
                 packet_list_tree.delete(item)
             packet_list_tree.clipboard_clear()
-            global packet_id
-            packet_id = 1
+            global packet_num
+            packet_num = 1
             clear_button['state'] = 'disabled'
 
         elif (result is True):
@@ -242,11 +297,10 @@ def clear_data():
                     packet_list_tree.delete(item)
                 packet_list_tree.clipboard_clear()
 
-                packet_id = 1
+                packet_num = 1
                 clear_button['state'] = 'disabled'
             else:
                 print("取消清空")
-
 
         else:
             print("取消清空")
@@ -259,39 +313,74 @@ def clear_data():
         for item in items:
             packet_list_tree.delete(item)
         packet_list_tree.clipboard_clear()
-        packet_id = 1
+        packet_num = 1
         clear_button['state'] = 'disabled'
 
 
-
-def on_click_packet_list_tree(event):
+def on_click_packet(event):
     '''
-    数据包列表单击事件响应函数，在数据包列表中单击数据包时
+    数据包列表单击事件响应函数
     1.在协议解析区对数据包进行解析
     2.在hexdump区显示此数据包的十六进制的内容
     :return:
     '''
+    packet_dissect_tree.delete(*packet_dissect_tree.get_children())
+    packet_dissect_tree.column('Dissect', width=packet_list_frame.winfo_width())
+    item = event.widget.selection()
+    index=int(item[0])-1
+    packet=packet_list[index]
+    infos=(packet.show(dump=True)).split("\n")
+    print("packet_info",infos)
+    for info in infos:
+        if(info.startswith('#')):
+            info=info.strip('# ')
+            parent=packet_dissect_tree.insert('', 'end', text=info)
+        else:
+            packet_dissect_tree.insert(parent,'end',text=info)
+        col_width = font.Font().measure(info)
+        # 根据新插入数据项的长度动态调整协议解析区的宽度
+        if packet_dissect_tree.column('Dissect', width=None) < col_width:
+            packet_dissect_tree.column('Dissect', width=col_width)
+
+    #在hexdump区显示此数据包的16进制的内容
+    hexdump_scrolledtext['state'] = 'normal'
+    hexdump_scrolledtext.delete(1.0, END)
+    hexdump_scrolledtext.insert(END, hexdump(packet, dump=True))
+    hexdump_scrolledtext['state'] = 'disabled'
 
 
-def analysis_result():
+def analysis():
     # TODO 对抓取得到的数据包进行分析（域名统计，流量分析)
     pass
 
 
-
-
 def filter_packet():
     # 设置过滤后需要更新过滤的值
-    global filter_flag
     filter_flag = True
+
     # 根据用户输入生成BPF过滤规则
     protocal= protocal_combo.get()
     src_adr=src_adr_entry.get()
     src_port=src_port_entry.get()
-
-    # 判断当前处于哪种状态？抓包前 vs 抓包后
-
-
+    dst_adr=dst_adr_entry.get()
+    dst_port=dst_port_entry.get()
+    print(len(protocal),len(src_adr),len(src_port),len(dst_adr),len(dst_port))
+    # 抓包前过滤
+    filter_rule = " "
+    # TODO 需要判断设定的规则是否正确？
+    if (protocal != "ALL"):
+        filter_rule += protocal + ' '
+    if (src_adr.strip() != ''):
+        filter_rule += 'src ' + src_adr + ' '
+    if (src_port.strip() != ""):
+        filter_rule += 'port ' + src_port + ' '
+    if (dst_adr.strip() != ""):
+        filter_rule += 'dst ' + dst_adr + ' '
+    if (dst_port.strip() != ""):
+        filter_rule += 'port ' + dst_port
+    print("filter_rule", filter_rule)
+    fitler_entry.delete(0, END)
+    fitler_entry.insert(0, filter_rule)
 
 
 
@@ -324,15 +413,16 @@ select_nic_combo.current(0)
 select_nic_combo.bind("<<ComboboxSelected>>",select_nic)
 start_button = Button(toolbar, width=8, text="开始", command=start_capture)
 #pause_button = Button(toolbar, width=8, text="暂停", command=pause_capture)
-stop_button = Button(toolbar, width=8, text="停止", command=stop_capture)
-clear_button = Button(toolbar, width=8, text="清空数据", command=clear_data)
-save_button = Button(toolbar, width=8, text="保存数据", command=save_captured_data_to_file)
-quit_button = Button(toolbar, width=8, text="退出", command=quit_program)
-analysis_button = Button(toolbar,width=8,text="流量分析",command=analysis_result)
+stop_button = Button(toolbar, width=8, text="停止")
+stop_button.bind("<Button-1>",stop_capture)
+clear_button = Button(toolbar, width=8, text="清空数据", command=clear)
+save_button = Button(toolbar, width=8, text="保存数据", command=save)
+quit_button = Button(toolbar, width=8, text="退出", command=quit)
+analysis_button = Button(toolbar,width=8,text="流量分析",command=analysis)
 
 start_button['state'] = 'normal'
 #pause_button['state'] = 'disabled'
-stop_button['state'] = 'disabled'
+#stop_button['state'] = 'disabled'
 clear_button['state']='disabled'
 save_button['state'] = 'disabled'
 analysis_button['state']='disabled'
@@ -381,11 +471,19 @@ filter_button.pack(side=LEFT,after=dst_port_entry,padx=10,pady=10)
 
 main_panedwindow.add(filter_frame)
 
+#过滤规则显示区域
+filter_rule_frame = Frame()
+filter_label = Label(filter_rule_frame, width=10, text="BPF过滤规则：")
+fitler_entry = Entry(filter_rule_frame)
+filter_label.pack(side=LEFT,padx=20, pady=10)
+fitler_entry.pack(side=LEFT, after=filter_label, padx=20, pady=10, fill=X, expand=YES)
+main_panedwindow.add(filter_rule_frame)
+
 # 数据包列表区
 packet_list_frame = Frame()
 packet_list_sub_frame = Frame(packet_list_frame)
 packet_list_tree = Treeview(packet_list_sub_frame, selectmode='browse')
-packet_list_tree.bind('<<TreeviewSelect>>', on_click_packet_list_tree)
+packet_list_tree.bind('<<TreeviewSelect>>', on_click_packet)
 # 数据包列表垂直滚动条
 packet_list_vscrollbar = Scrollbar(packet_list_sub_frame, orient="vertical", command=packet_list_tree.yview)
 packet_list_vscrollbar.pack(side=RIGHT, fill=Y, expand=YES)
