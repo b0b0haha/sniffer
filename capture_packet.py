@@ -130,7 +130,7 @@ def capture_packet():
     # 清空列表
     packet_list.clear()
     # 抓取数据包并将抓到的包存在列表中
-    sniff(prn=(lambda x: process_packet(x)), filter=filters, stop_filter=(lambda x: stop_sending.is_set()))
+    sniff(iface="Realtek USB GbE Family Controller",prn=(lambda x: process_packet(x)), filter=filters, stop_filter=(lambda x: stop_sending.is_set()))
 
 # 处理抓到的数据包
 def process_packet(packet):
