@@ -1,4 +1,4 @@
-﻿# coding = utf-8
+﻿#coding = utf-8
 import datetime
 import threading
 import sys
@@ -19,7 +19,7 @@ from scapy.layers.inet6 import IPv6
 from scapy.layers.l2 import Ether
 from scapy.layers import http
 
-plt.rcParams['font.sans-serif']=['SimHei'] #解决中文乱码
+plt.rcParams['font.sans-serif']=['SimHei']
 import numpy as np
 import json
 import requests
@@ -29,10 +29,6 @@ from pyecharts.charts import *
 from pyecharts.globals import *
 from pyecharts.commons import *
 from pyecharts import options as opts
-'''
-from scapy.layers.inet import *
-from scapy.layers.l2 import *
-'''
 from selenium import webdriver
 from PIL import Image, ImageTk
 
@@ -63,6 +59,44 @@ colors3=['blue','mediumblue','midnightblue','darkblue', 'navy','royalblue', 'cor
 titles = ["network layer statistics", "transport layer statistics", "application layer statistics","http/https request get","ip address statistics","time flow analysis"]
 
 ##===========工具函数===========##
+def log_format(file_path,orderd_dict_list):
+    '''
+    :param file_path: 示例：r"\log\nic.txt"
+    :param orderd_dict:
+    :return:
+    '''
+    col_width={}
+    for row in orderd_dict_list:
+        for k,v in row.items():
+            if k not in col_width:
+                col_width[k]=len(v)
+            else:
+                if(col_width[k]<len(v)):
+                    col_width[k]=len(v)
+        for k in row.keys():
+            if k not in col_width:
+                col_width[k]=len(k)
+            else:
+                if(col_width[k]<len(k)):
+                    col_width[k]=len(k)
+    print("col_width", col_width)
+    output = sys.stdout
+    outputfile = open(file_path, "w")
+    sys.stdout = outputfile
+
+    with open(file_path, "w") as file:
+
+        for idx,finfo in enumerate(orderd_dict_list):
+            if(idx==0):
+                for key in orderd_dict_list[0].keys():
+                    print(('{:<' + str(col_width[key]) + '}').format(key), end=' ')
+                print()
+            fvalue = ""
+            for key, value in finfo.items():
+                print(('{:<' + str(col_width[key]) + '}').format(value), end=' ')
+            print()
+    outputfile.close()
+    sys.stdout = output
 
 def get_host_ip():
     ip_count=[]
@@ -77,7 +111,7 @@ def get_host_ip():
     return host_ip
 
 def get_public_ip():
-    # TODO 如果多次请求会导致ip被封，需要使用selenium来解决
+    # 如果多次请求会导致ip被封，需要使用selenium来解决
     from json import load
     ip = None
     # four methods to get my public ip
@@ -311,7 +345,7 @@ def process_packet(packet,filename):
     packet_id = packet_id + 1
     # 将数据包的信息记录到日志中
     with open(filename, "a+") as f:
-        if (packet_id == 1):
+        if (packet_id-1== 1):
             header = 'packet_id' + '\t' + 'packet_time' + '\t' + 'src' + '\t' + 'dst' + '\t' + 'proto' + '\t' + 'length' + '\t' + 'info' + '\n'
             f.write(header)
         record = str(packet_id-1) + '\t' + str(packet_time) + '\t' + str(src) + '\t' + str(dst) + '\t' + str(proto) + '\t' + str(length)+ '\t' + str(info) + '\n'
@@ -448,10 +482,11 @@ def draw_count_in_out_ip(in_packet_list,out_packet_list,in_time_flow_dict,out_ti
     for v in sorted_v:
         keys=list(filter(lambda k :in_packet_list[k]==v,in_packet_list))
         for k in keys:
+            if (count == 15):
+                break
             ordered_packet_list[k]=in_packet_list[k]
             count+=1
-            if(count==10):
-                break
+
     attr=ordered_packet_list.keys()
     vl=ordered_packet_list.values()
     data_pair=zip(attr,vl)
@@ -472,10 +507,11 @@ def draw_count_in_out_ip(in_packet_list,out_packet_list,in_time_flow_dict,out_ti
     for v in sorted_v:
         keys = list(filter(lambda k: out_packet_list[k] == v, out_packet_list))
         for k in keys:
+            if (count == 15):
+                break
             ordered_packet_list[k] = out_packet_list[k]
             count += 1
-            if (count == 10):
-                break
+
     attr = ordered_packet_list.keys()
     vl = ordered_packet_list.values()
     data_pair = zip(attr, vl)
@@ -754,25 +790,12 @@ def logger_addr(ip_addr_info,flag):
         for index,f in enumerate(finfos):
             if(f['count']==v):
                 new_info=collections.OrderedDict()
-                new_info['index']=cnt
+                new_info['index']=str(cnt)
                 for key,value in f.items():
-                    new_info[key]=value
+                    new_info[key]=str(value)
                 ordered_finfos.append(new_info)
                 cnt+=1
-
-    with open(file_path,"w") as file:
-        header=""
-        finfo=finfos[0]
-        for key in finfo.keys():
-            header+=str(key)+"\t"
-        header+="\n"
-        file.write(header)
-        for item in ordered_finfos:
-            value=""
-            for v in item.values():
-                value+=str(v)+"\t"
-            value+="\n"
-            file.write(value)
+    log_format(file_path,ordered_finfos)
     return ordered_finfos
 
 def show_addr_list(in_ip_addr,out_ip_addr):
