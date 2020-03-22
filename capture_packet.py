@@ -111,7 +111,6 @@ def get_host_ip():
     return host_ip
 
 def get_public_ip():
-    # 如果多次请求会导致ip被封，需要使用selenium来解决
     from json import load
     ip = None
     # four methods to get my public ip
