@@ -99,10 +99,6 @@ python3 capture_packet.py
 
 
 
-### 4.参考
-
-https://blog.csdn.net/wmrem/article/details/80465104?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
-
 
 
 

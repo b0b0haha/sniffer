@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7df5e0d1-18e4-4a39-a73d-05ea434ba249" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="7df5e0d1-18e4-4a39-a73d-05ea434ba249" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -226,6 +223,7 @@
       <workItem from="1584411194174" duration="45043000" />
       <workItem from="1584791080508" duration="12680000" />
       <workItem from="1584843632183" duration="9040000" />
+      <workItem from="1584939184563" duration="480000" />
     </task>
     <task id="LOCAL-00001" summary="增加了页面交互的基本逻辑">
       <created>1583838116803</created>
@@ -373,10 +371,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="115" y="102" width="1097" height="482" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.1280.720@0.0.1280.720" timestamp="1584805223715" />
-    <state x="329" y="184" key="com.intellij.ide.util.TipDialog" timestamp="1584791083131">
+    <state x="329" y="184" key="com.intellij.ide.util.TipDialog" timestamp="1584939668523">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="329" y="184" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1584791083131" />
+    <state x="329" y="184" key="com.intellij.ide.util.TipDialog/0.0.1280.720@0.0.1280.720" timestamp="1584939668523" />
     <state x="437" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583860265430">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -388,7 +386,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/sniffer$capture_packet__1_.coverage" NAME="capture_packet (1) Coverage Results" MODIFIED="1584162583239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/sniffer$capture_packet.coverage" NAME="capture_packet Coverage Results" MODIFIED="1584852356167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sniffer$capture_packet.coverage" NAME="capture_packet Coverage Results" MODIFIED="1584939680411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/sniffer$test_public_ip.coverage" NAME="test_public_ip Coverage Results" MODIFIED="1584801979931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/sniffer$capture_packet_1.coverage" NAME="capture_packet Coverage Results" MODIFIED="1584464676629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/sniffer$test_html.coverage" NAME="test_html Coverage Results" MODIFIED="1584442018580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
