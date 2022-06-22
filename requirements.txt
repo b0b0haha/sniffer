@@ -27,7 +27,7 @@ maxminddb==1.5.2
 mkl-fft==1.0.15
 mkl-random==1.1.0
 mkl-service==2.3.0
-numpy==1.18.1
+numpy==1.22.0
 parso==0.6.1
 pickleshare==0.7.5
 Pillow==7.0.0
