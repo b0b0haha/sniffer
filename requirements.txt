@@ -30,7 +30,7 @@ mkl-service==2.3.0
 numpy==1.18.1
 parso==0.6.1
 pickleshare==0.7.5
-Pillow==7.0.0
+Pillow==9.3.0
 pipreqs==0.4.10
 prettytable==0.7.2
 prompt-toolkit==3.0.3
